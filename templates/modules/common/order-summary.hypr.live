@@ -57,40 +57,42 @@
                             </dl>
                             {% else %}
                               {% if item.product.stock and item.product.stock.isOnBackOrder and item.product.stock.manageStock %}
-                              <div class="mz-product-backorder">
-                                <div class="is-warning mz-product-backorder-warning">
-                                  {{ labels.qty }} {{ item.quantity|subtract(item.product.stock.stockAvailable) }} {{ labels.itemOnBackorder }}
-                                  {% if item.product.stock.availableDate  %}
-                                  .<br /> {{ labels.productBackorderAvailableDate }} {{item.product.stock.availableDate | date("m/d/Y")}}
-                                  {% endif %}
+                                <div class="mz-product-backorder">
+                                  <div class="is-warning mz-product-backorder-warning">
+                                    {{ labels.qty }} {{ item.quantity|subtract(item.product.stock.stockAvailable) }} {{ labels.itemOnBackorder }}
+                                    {% if item.product.stock.availableDate  %}
+                                    .<br /> {{ labels.productBackorderAvailableDate }} {{item.product.stock.availableDate | date("m/d/Y")}}
+                                    {% endif %}
+                                  </div>
                                 </div>
-                              </div>
+                              {% endif %}
                             {% endif %}
                         </div>
                         {% if item.product.options and themeSettings.showCartItemOptions %}
                         <div class="mz-propertylist">
                           {% for option in item.product.options %}
-                          <div>{% if option.name == "OTHER" %}
-                    OPTION
-                    {% else %}
-                    {{ option.name }}
-                    {% endif %}:
-                            <span class="text-capitalize">
-                              {% if option.stringValue %}
-                                    {% if option.stringValue == 'CHR(38)' %}
-                                    &amp;
-                                    {% else %}
-                                      {% if option.stringValue == 'CHR(64)' %}
-                                      @
-                                      {% else %}
-                                        {{ option.stringValue }}
-                                      {% endif %}
-                                    {% endif %}
+                            <div>
+                              {% if option.name == "OTHER" %}
+                                OPTION
                               {% else %}
-                                    {{ option.shopperEnteredValue }}
-                              {% endif %}
-                            </span>
-                          </div>
+                                {{ option.name }}
+                              {% endif %}:
+                              <span class="text-capitalize">
+                                {% if option.stringValue %}
+                                      {% if option.stringValue == 'CHR(38)' %}
+                                      &amp;
+                                      {% else %}
+                                        {% if option.stringValue == 'CHR(64)' %}
+                                        @
+                                        {% else %}
+                                          {{ option.stringValue }}
+                                        {% endif %}
+                                      {% endif %}
+                                {% else %}
+                                      {{ option.shopperEnteredValue }}
+                                {% endif %}
+                              </span>
+                            </div>
                           {% endfor %}
                         </div>
                         {% endif %}

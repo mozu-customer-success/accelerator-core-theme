@@ -445,7 +445,10 @@ define(['modules/api',
         });
 
         cartModel.on('sync', function() {
-            CartMonitor.setCount(cartModel.count());
+             if (this.isEmpty())
+                window.location.reload();
+            else
+                CartMonitor.update();
         });
 
         window.cartView = cartViews;

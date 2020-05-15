@@ -1,7 +1,6 @@
-﻿define(['shim!vendor/typeahead.js/typeahead.bundle[modules/jquery-mozu=jQuery]>jQuery', 'hyprlive', 'modules/api',
-      'hyprlivecontext'], function($, Hypr, api,
-        HyprLiveContext) {
-    
+define(['shim!vendor/typeahead.js/typeahead.bundle[modules/jquery-mozu=jQuery]>jQuery', 'hyprlive', 'modules/api','hyprlivecontext'],
+    function($, Hypr, api, HyprLiveContext) {
+
     // bundled typeahead saves a lot of space but exports bloodhound to the root object, let's lose it
     var Bloodhound = window.Bloodhound.noConflict();
 
@@ -79,7 +78,20 @@
                             rateLimitWait: 400,
                             ajax: self.ajaxConfig
                         }
-                    })
+                    }),
+					categories: new Bloodhound({
+		                datumTokenizer: function(datum) {
+		                    return datum.suggestion.categories.split(self.nonWordRe);
+		                },
+		                queryTokenizer: Bloodhound.tokenizers.whitespace,
+		                remote: {
+		                    url: self.getApiUrl('categories'),
+		                    wildcard: self.eqs(),
+		                    filter: self.makeSuggestionGroupFilter("Categories"),
+		                    rateLimitWait: 100,
+		                    ajax: self.ajaxConfig
+		                }
+		            })
                 };
             },
 
@@ -127,8 +139,6 @@
                         });
                     }
                 }
-
-                
             }
         };
     };
@@ -149,6 +159,5 @@
             });
         });
     });
-    
     return Search;
 });
